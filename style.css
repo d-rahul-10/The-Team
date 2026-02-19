@@ -53,6 +53,15 @@ header h1 {
     grid-column: 1 / -1;
 }
 
+.floor {
+    margin-bottom: 16px;
+}
+.floor h4 {
+    margin: 8px 0;
+    font-size: 1rem;
+}
+.floor svg { display: block; }
+
 .grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -135,6 +144,51 @@ button:hover {
     padding: 16px;
     border-radius: 8px;
     font-size: 0.95rem;
+}
+
+/* AI card collapsible styles */
+.ai-card {
+    display: block;
+}
+.ai-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+.ai-summary {
+    font-weight: 600;
+    color: var(--text);
+}
+.ai-toggle {
+    background: transparent;
+    border: 1px solid var(--border);
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+.ai-details.collapsed {
+    max-height: 96px;
+    overflow: hidden;
+    position: relative;
+}
+.ai-details.collapsed:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 32px;
+    background: linear-gradient(180deg, rgba(241,245,249,0) 0%, rgba(241,245,249,1) 100%);
+}
+.ai-details.expanded {
+    max-height: 2000px;
+    overflow: auto;
+}
+.ai-offline {
+    border-left: 5px solid #e67e22;
+    background: #fff3e0;
 }
 
 footer {
