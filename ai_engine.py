@@ -33,13 +33,19 @@ class AIEngine:
                 },
                 timeout=30
             )
-            
+
             if response.status_code == 200:
-                return response.json().get("response", "AI analysis unavailable.")
+                raw = response.json().get("response", "")
+                # Normalize to a list of bullet points if possible
+                lines = [ln.strip(' •\n') for ln in raw.splitlines() if ln.strip()]
+                if len(lines) == 0 and raw:
+                    # try splitting by sentences
+                    lines = [s.strip() for s in raw.split('.') if s.strip()]
+                return {"ok": True, "insights": lines, "raw": raw}
             else:
-                return "Error connecting to local AI model. Please ensure Ollama is running."
+                return {"ok": False, "error": "Error connecting to local AI model. Please ensure Ollama is running."}
         except Exception as e:
-            return f"AI Integration Error: {str(e)}"
+            return {"ok": False, "error": f"AI Integration Error: {str(e)}"}
 
     def generate_weekly_schedule(self, project_data):
         """Generate a high-level weekly schedule using AI."""
@@ -61,10 +67,33 @@ class AIEngine:
                 },
                 timeout=30
             )
-            
+
             if response.status_code == 200:
-                return response.json().get("response", "Schedule generation unavailable.")
+                raw = response.json().get("response", "")
+                # Attempt to parse simple week-by-week lines
+                weeks = []
+                for line in raw.splitlines():
+                    if not line.strip():
+                        continue
+                    # Expect formats like: "Week 1: Site prep - activities"
+                    parts = line.split(':', 1)
+                    if len(parts) == 2 and parts[0].strip().lower().startswith('week'):
+                        week_label = parts[0].strip()
+                        phase_activities = parts[1].strip()
+                        # split phase and activities if hyphenated
+                        if ' - ' in phase_activities:
+                            phase, acts = phase_activities.split(' - ', 1)
+                            activities = [a.strip() for a in acts.split(',') if a.strip()]
+                        else:
+                            phase = phase_activities
+                            activities = []
+                        try:
+                            week_num = int(''.join(filter(str.isdigit, week_label)))
+                        except Exception:
+                            week_num = None
+                        weeks.append({"week": week_num, "phase": phase.strip(), "activities": activities})
+                return {"ok": True, "weeks": weeks, "raw": raw}
             else:
-                return "Error connecting to AI model."
-        except Exception:
-            return "Failed to generate schedule via AI."
+                return {"ok": False, "error": "Error connecting to AI model."}
+        except Exception as e:
+            return {"ok": False, "error": f"Failed to generate schedule via AI: {e}"}
