@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Construction Planner</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>AI Construction Planner</h1>
+            <p>Intelligent Project Planning with IBM Granite 3.3 2B</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="input-section">
+            <div class="card">
+                <h2>Project Parameters</h2>
+                <form id="planner-form">
+                    <div class="form-group">
+                        <label for="area">Built-up Area (sq yards)</label>
+                        <input type="number" id="area" name="area" placeholder="e.g., 1000" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="floors">Number of Floors</label>
+                        <input type="number" id="floors" name="floors" value="1" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="timeline">Target Timeline (days - optional)</label>
+                        <input type="number" id="timeline" name="timeline" placeholder="e.g., 90">
+                    </div>
+                    <button type="submit" id="submit-btn">Generate Plan</button>
+                </form>
+            </div>
+        </section>
+
+        <div id="loading" class="hidden">
+            <div class="spinner"></div>
+            <p>AI is analyzing your project...</p>
+        </div>
+
+        <section id="results" class="hidden">
+            <div class="grid">
+                <!-- AI Insights -->
+                <div class="card full-width">
+                    <h3>AI Analysis & Recommendations</h3>
+                    <div id="ai-insights" class="content-box"></div>
+                </div>
+
+                <!-- Costs -->
+                <div class="card">
+                    <h3>Cost Estimation</h3>
+                    <div id="cost-details" class="stats"></div>
+                </div>
+
+                <!-- Labor -->
+                <div class="card">
+                    <h3>Labor Requirements</h3>
+                    <div id="labor-details" class="stats"></div>
+                </div>
+
+                <!-- Materials -->
+                <div class="card">
+                    <h3>Material Estimation</h3>
+                    <div id="material-details" class="stats"></div>
+                </div>
+
+                <!-- Blueprint -->
+                <div class="card">
+                    <h3>Suggested Blueprint Layout</h3>
+                    <div id="blueprint-details" class="content-box"></div>
+                </div>
+
+                <!-- Weekly Schedule -->
+                <div class="card full-width">
+                    <h3>AI-Generated Weekly Schedule</h3>
+                    <div id="ai-schedule" class="content-box"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Construction Planning System | Powered by IBM Granite</p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
