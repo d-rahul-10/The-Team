@@ -32,6 +32,35 @@
                         <label for="timeline">Target Timeline (days - optional)</label>
                         <input type="number" id="timeline" name="timeline" placeholder="e.g., 90">
                     </div>
+                    <!-- Room options are managed via the visual builder below -->
+                    <div class="form-group" id="room-builder">
+                        <label>Room Options Builder (visual)</label>
+                        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+                            <select id="rb-room-type">
+                                <option value="living room">Living Room</option>
+                                <option value="master bedroom">Master Bedroom</option>
+                                <option value="bedroom">Bedroom</option>
+                                <option value="kitchen">Kitchen</option>
+                                <option value="dining area">Dining Area</option>
+                                <option value="bathroom">Bathroom</option>
+                                <option value="guest room">Guest Room</option>
+                            </select>
+                            <label style="font-size:12px">Windows</label>
+                            <input type="number" id="rb-windows" value="1" min="0" style="width:64px">
+                            <label style="font-size:12px">Doors</label>
+                            <input type="number" id="rb-doors" value="1" min="0" style="width:64px">
+                            <label style="font-size:12px">Door side</label>
+                            <select id="rb-door-side">
+                                <option value="bottom">Bottom</option>
+                                <option value="top">Top</option>
+                                <option value="left">Left</option>
+                                <option value="right">Right</option>
+                            </select>
+                            <button type="button" id="rb-add" class="btn">Add</button>
+                            <button type="button" id="rb-clear" class="btn muted">Clear</button>
+                        </div>
+                        <small>Use the builder to configure per-room door/window preferences.</small>
+                    </div>
                     <button type="submit" id="submit-btn">Generate Plan</button>
                 </form>
             </div>
@@ -47,7 +76,13 @@
                 <!-- AI Insights -->
                 <div class="card full-width">
                     <h3>AI Analysis & Recommendations</h3>
-                    <div id="ai-insights" class="content-box"></div>
+                    <div id="ai-card" class="ai-card">
+                        <div class="ai-card-header">
+                            <div id="ai-summary" class="ai-summary">Loading AI insights...</div>
+                            <button id="ai-toggle" class="ai-toggle">Show details</button>
+                        </div>
+                        <div id="ai-insights" class="content-box ai-details collapsed"></div>
+                    </div>
                 </div>
 
                 <!-- Costs -->
